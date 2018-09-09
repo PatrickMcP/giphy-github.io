@@ -16,10 +16,17 @@ function renderButtons() {
 
 renderButtons();
 
-$("button").on("click", function () {
+$("#add-game").on("click", function () {
   event.preventDefault();
 
-  $("#gif-view").html("");
+  var game = $("#game-input").val().trim();
+
+  gameList.push(game);
+
+  renderButtons();
+});
+$(".game").on("click", function () {
+  event.preventDefault();
 
   var gameName = $(this).attr("data-name");
   var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gameName + "&api_key=XJ8F9R1buQngpS44OJSMisUiYi7yzYGl&limit=10";
@@ -30,6 +37,7 @@ $("button").on("click", function () {
     url: queryURL,
     method: "GET"
   }).then(function (response) {
+    $("#gif-view").html("");
     var results = response.data;
 
     for (var i = 0; i < results.length; i++) {
@@ -58,17 +66,6 @@ $("button").on("click", function () {
     }
   });
 });
-
-$("#add-game").on("click", function () {
-  event.preventDefault();
-
-  var game = $("#game-input").val().trim();
-
-  gameList.push(game);
-
-  renderButtons();
-});
-
 $(document).on("click", ".image", function(){
   var state = $(this).attr('data-state');
   if ( state == 'still'){
